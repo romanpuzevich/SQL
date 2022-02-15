@@ -26,7 +26,7 @@ SELECT Embarked as Port_of_departure, COUNT(PassengerId) as Number_of_passengers
 	   SUM(Survived)*1.0/COUNT(PassengerId) as Proportion_of_survived
 FROM Titanic
 GROUP BY Embarked
-/* тут, видимо, что-то с данными, поэтому выводит NULL */
+/* С‚СѓС‚, РІРёРґРёРјРѕ, С‡С‚Рѕ-С‚Рѕ СЃ РґР°РЅРЅС‹РјРё, РїРѕСЌС‚РѕРјСѓ РІС‹РІРѕРґРёС‚ NULL */
 
 --- 5 
 SELECT top 1 Embarked
@@ -44,7 +44,7 @@ GROUP BY T1.Pclass, T1.Sex
 SELECT top 10 *
 FROM Titanic 
 ORDER BY Fare desc
-/* Стоимость билета указана не на человека, а на семью */
+/* РЎС‚РѕРёРјРѕСЃС‚СЊ Р±РёР»РµС‚Р° СѓРєР°Р·Р°РЅР° РЅРµ РЅР° С‡РµР»РѕРІРµРєР°, Р° РЅР° СЃРµРјСЊСЋ */
 
 --- 8
 SELECT distinct T1.Ticket
@@ -68,11 +68,14 @@ GROUP BY Ticket
 HAVING COUNT(PassengerId) > 1 AND COUNT(PassengerId) = SUM(Survived)
 
 --- 11
-/* Использую формулу Байеса, поскльку женское имя и выживание связанные события
-   P(A|B) = P(B|A)*P(A)/P(B); B - имя, А - выживание*/
+/* РСЃРїРѕР»СЊР·СѓСЋ С„РѕСЂРјСѓР»Сѓ Р‘Р°Р№РµСЃР°, РїРѕСЃРєР»СЊРєСѓ Р¶РµРЅСЃРєРѕРµ РёРјСЏ Рё РІС‹Р¶РёРІР°РЅРёРµ СЃРІСЏР·Р°РЅРЅС‹Рµ СЃРѕР±С‹С‚РёСЏ
+   P(A|B) = P(B|A)*P(A)/P(B); B - РёРјСЏ, Рђ - РІС‹Р¶РёРІР°РЅРёРµ*/
 
 SELECT (SELECT COUNT(PassengerId) FROM Titanic WHERE Survived = 1 AND Name like '%Elizabeth%')*1.0/(SELECT COUNT(PassengerId) FROM Titanic WHERE Name like '%Elizabeth%')
 		as Chance_if_name_is_Elizabeth
+
+SELECT (SELECT COUNT(PassengerId) FROM Titanic WHERE Survived = 1 AND Name like '%Mary%')*1.0/(SELECT COUNT(PassengerId) FROM Titanic WHERE Name like '%Mary%')
+		as Chance_if_name_is_Mary
 
 SELECT (SELECT COUNT(PassengerId) FROM Titanic WHERE Survived = 1 AND Name like '%Mary%')*1.0/(SELECT COUNT(PassengerId) FROM Titanic WHERE Name like '%Mary%')
 		as Chance_if_name_is_Mary
